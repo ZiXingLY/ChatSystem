@@ -10,6 +10,7 @@ public class ChatClient extends Frame {
 	TextField textField = new TextField();
 	TextArea textArea = new TextArea();
 	Socket s = null;
+	DataOutputStream  dos = null;
 
 	public void launchFrame() {
 		this.setLocation(400, 300);
@@ -22,6 +23,7 @@ public class ChatClient extends Frame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				// TODO Auto-generated method stub
+				disconnect();
 				System.exit(0);
 			}
 			
@@ -40,10 +42,8 @@ public class ChatClient extends Frame {
 			textArea.setText(str);
 			textField.setText("");
 			try {
-				DataOutputStream dos = new DataOutputStream(s.getOutputStream());
 				dos.writeUTF(str);
 				dos.flush();
-				dos.close();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -55,6 +55,7 @@ public class ChatClient extends Frame {
 	public void connect(){
 		try {
 			s = new Socket("127.0.0.1", 8888);
+			dos = new DataOutputStream(s.getOutputStream());
 System.out.println("Connected!");
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -64,7 +65,16 @@ System.out.println("Connected!");
 			e.printStackTrace();
 		}
 	}
-
+	
+	public void disconnect(){
+		try {
+			dos.close();
+			s.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		new ChatClient().launchFrame();

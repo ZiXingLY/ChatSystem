@@ -13,6 +13,10 @@ public class ChatServer {
 		DataInputStream dis = null;
 		try{
 			ss = new ServerSocket(8888);
+		}catch(BindException e){
+			System.out.println("端口正在被使用！");
+			System.out.println("检查端口占用，并重新运行");
+			System.exit(0);
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -30,9 +34,10 @@ System.out.println("A Client Connected!");
 				}
 //				dis.close();
 			}
+		}catch(EOFException e){
+			System.out.println("Client Closed!");			
 		}catch(Exception e){
-//			e.printStackTrace();
-			System.out.println("Client Closed!");
+			e.printStackTrace();
 		}finally{
 			try {
 				if(dis != null) dis.close();

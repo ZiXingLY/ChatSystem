@@ -2,8 +2,7 @@ package com.chatsystem.view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
 public class ChatClient extends Frame {
 	TextField textField = new TextField();
@@ -24,7 +23,20 @@ public class ChatClient extends Frame {
 			}
 			
 		});
+		textField.addActionListener(new TFListener());
 		this.setVisible(true);
+		
+	}
+	
+	private class TFListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			String s = textField.getText().trim();//trim()È¥¿Õ¸ñ
+			textArea.setText(s);
+			textField.setText("");
+		}
 		
 	}
 

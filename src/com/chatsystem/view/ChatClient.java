@@ -3,6 +3,8 @@ package com.chatsystem.view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.net.*;
 
 public class ChatClient extends Frame {
 	TextField textField = new TextField();
@@ -25,7 +27,7 @@ public class ChatClient extends Frame {
 		});
 		textField.addActionListener(new TFListener());
 		this.setVisible(true);
-		
+		connect();
 	}
 	
 	private class TFListener implements ActionListener{
@@ -38,6 +40,19 @@ public class ChatClient extends Frame {
 			textField.setText("");
 		}
 		
+	}
+	
+	public void connect(){
+		try {
+			Socket s = new Socket("127.0.0.1", 8888);
+System.out.println("Connected!");
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) {

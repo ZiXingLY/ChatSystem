@@ -3,12 +3,13 @@ package com.chatsystem.view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
+import java.io.*;
 import java.net.*;
 
 public class ChatClient extends Frame {
 	TextField textField = new TextField();
 	TextArea textArea = new TextArea();
+	Socket s = null;
 
 	public void launchFrame() {
 		this.setLocation(400, 300);
@@ -35,16 +36,25 @@ public class ChatClient extends Frame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			String s = textField.getText().trim();//trim()去空格
-			textArea.setText(s);
+			String str = textField.getText().trim();//trim()去空格
+			textArea.setText(str);
 			textField.setText("");
+			try {
+				DataOutputStream dos = new DataOutputStream(s.getOutputStream());
+				dos.writeUTF(str);
+				dos.flush();
+				dos.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		
 	}
 	
 	public void connect(){
 		try {
-			Socket s = new Socket("127.0.0.1", 8888);
+			s = new Socket("127.0.0.1", 8888);
 System.out.println("Connected!");
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
